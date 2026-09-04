@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#bd1012">
+  <title>女神归来｜幸运大转盘</title>
+  <style>
+    :root { --red:#bd1012; --deep:#79090b; --gold:#ffd979; --cream:#fff7df; --orange:#ff7a21; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; color:var(--cream); font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif; background:#8d090b; }
+    .page { overflow:hidden; min-height:100vh; position:relative; isolation:isolate; background:radial-gradient(circle at 50% 17%,#ff6728 0%,#d92216 29%,#a20b0d 74%,#700608 100%); }
+    .page:before,.page:after { content:""; position:absolute; z-index:-1; border-radius:50%; border:1px solid rgba(255,232,168,.26); }
+    .page:before { width:150vw; height:150vw; left:-25vw; top:11rem; background:repeating-conic-gradient(from 0deg,rgba(255,213,124,.10) 0 4deg,transparent 4deg 14deg); opacity:.55; }
+    .page:after { width:110vw; height:110vw; left:-5vw; top:18rem; border-width:8px; box-shadow:0 0 0 18px rgba(255,210,110,.08),0 0 0 44px rgba(255,210,110,.05); }
+    main { width:min(100%,560px); margin:auto; padding:26px 18px 36px; text-align:center; }
+    .top-badge { display:inline-flex; align-items:center; gap:8px; padding:7px 13px; border:1px solid rgba(255,234,178,.72); border-radius:999px; color:#ffe9ab; font-size:13px; letter-spacing:1px; background:rgba(126,7,6,.28); }
+    .top-badge i { width:7px; height:7px; background:#ffe5a0; border-radius:50%; box-shadow:0 0 8px #ffe5a0; }
+    h1 { margin:13px 0 2px; font-family:STKaiti,"KaiTi",serif; font-size:clamp(42px,12vw,62px); line-height:1; letter-spacing:5px; color:#fff4cb; text-shadow:0 2px 0 #b42313,0 6px 14px #790606; }
+    .subtitle { margin:10px auto 20px; display:inline-block; min-width:230px; padding:7px 20px; border:1px solid #ffca73; border-radius:99px; background:linear-gradient(180deg,#ff7130,#df2416); color:#fff6d5; font-size:16px; letter-spacing:2px; box-shadow:inset 0 1px rgba(255,255,255,.45); }
+    .banner { margin:4px auto 19px; transform:rotate(-2deg); display:inline-block; padding:8px 25px; border-radius:3px 18px 18px 3px; color:#fff6d7; background:linear-gradient(90deg,#b40b0c,#ec3d21 55%,#b90a0c); font-weight:700; font-size:17px; letter-spacing:1px; box-shadow:0 6px 14px rgba(90,0,0,.25); }
+    .wheel-area { position:relative; width:min(88vw,420px); aspect-ratio:1; margin:0 auto 18px; }
+    .pointer { position:absolute; z-index:3; top:-3px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:21px solid transparent; border-right:21px solid transparent; border-top:53px solid #fff0ba; filter:drop-shadow(0 3px 1px #8a0907) drop-shadow(0 0 7px #ffe086); }
+    .pointer:after { content:""; position:absolute; left:-9px; top:-50px; width:18px; height:18px; border-radius:50%; background:#e6461f; box-shadow:inset 0 2px 2px rgba(255,255,255,.55); }
+    .wheel-frame { width:100%; height:100%; padding:10px; border-radius:50%; background:linear-gradient(135deg,#fff1b4,#d88b2d 36%,#fff2ba 52%,#ad5212 80%,#ffe5a0); box-shadow:0 0 0 4px rgba(255,241,186,.35),0 13px 22px rgba(91,0,0,.42),inset 0 0 7px #8e3107; }
+    #wheel { display:block; width:100%; height:100%; border-radius:50%; transform:rotate(0deg); transition:transform 5s cubic-bezier(.12,.67,.14,1); box-shadow:inset 0 0 24px rgba(100,0,0,.35); }
+    .center { position:absolute; z-index:2; left:50%; top:50%; transform:translate(-50%,-50%); width:106px; height:106px; border:5px solid #ffe8a5; border-radius:50%; color:#fff4c7; background:radial-gradient(circle at 35% 27%,#ff8550,#d32d18 48%,#970807 100%); box-shadow:0 2px 0 #81110a,0 5px 14px rgba(89,0,0,.45),inset 0 2px rgba(255,255,255,.35); font:700 25px/1 "Microsoft YaHei",sans-serif; letter-spacing:2px; cursor:pointer; }
+    .center small { display:block; margin-top:4px; font-size:11px; letter-spacing:0; font-weight:400; }
+    .center:active { transform:translate(-50%,-48%); }
+    .hint { margin:0; color:#ffe6a3; font-size:13px; }
+    .prize-card { margin:24px 0 15px; padding:17px 14px 13px; border:1px solid rgba(255,221,147,.88); border-radius:16px; background:linear-gradient(145deg,rgba(151,6,8,.9),rgba(204,31,17,.78)); box-shadow:inset 0 1px rgba(255,255,255,.3),0 8px 22px rgba(93,0,0,.2); }
+    .prize-card h2 { margin:0 0 12px; color:#ffe4a4; font-size:17px; letter-spacing:2px; }
+    .prizes { display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left; }
+    .prize { padding:8px 9px; min-height:66px; border-radius:10px; background:rgba(255,238,181,.11); }
+    .prize b { display:block; margin-bottom:4px; color:#ffdc82; font-size:14px; }
+    .prize span { color:#fff4dc; font-size:13px; }
+    .actions { display:flex; gap:10px; margin:17px 0 8px; }
+    button.action { flex:1; min-height:44px; padding:0 10px; border:1px solid #ffe2a1; border-radius:999px; color:#9d1610; background:linear-gradient(#fff2c5,#ffd783); font:700 14px "Microsoft YaHei",sans-serif; cursor:pointer; box-shadow:0 3px 0 #a53a13; }
+    button.action.secondary { color:#fff0c1; background:transparent; box-shadow:none; }
+    .rules { text-align:left; margin:16px 5px 0; color:#ffe7b6; font-size:12px; line-height:1.8; opacity:.94; }
+    .rules strong { color:#fff4d4; }
+    .modal { position:fixed; z-index:10; inset:0; display:none; align-items:center; justify-content:center; padding:22px; background:rgba(65,0,0,.68); backdrop-filter:blur(4px); }
+    .modal.show { display:flex; }
+    .dialog { width:min(100%,340px); padding:31px 25px 23px; border:2px solid #ffdc8b; border-radius:20px; text-align:center; color:#8d1a0e; background:linear-gradient(160deg,#fffbe9,#ffe6a6); box-shadow:0 16px 42px rgba(31,0,0,.5); }
+    .dialog .spark { color:#da3518; font-size:29px; }
+    .dialog h2 { margin:8px 0 7px; color:#bd1910; font-size:25px; }
+    .dialog p { margin:0 0 19px; line-height:1.7; color:#7d2a17; font-size:14px; }
+    .dialog .claim { width:100%; min-height:45px; border:0; border-radius:99px; color:white; background:linear-gradient(180deg,#f05b2c,#bd120d); font:700 15px "Microsoft YaHei",sans-serif; cursor:pointer; }
+    .dialog .close { margin:13px 0 0; border:0; color:#9d4a26; background:transparent; font:13px "Microsoft YaHei",sans-serif; cursor:pointer; }
+    @media (max-width:360px) { main { padding-left:12px; padding-right:12px; } h1 { font-size:42px; } .wheel-area { width:92vw; } .prize-card { margin-top:16px; } }
+  </style>
+</head>
+<body>
+  <div class="page"><main>
+    <div class="top-badge"><i></i>限时宠粉活动</div>
+    <h1>女神归来</h1>
+    <div class="subtitle">寻找最美代言人</div>
+    <div class="banner">转动幸运，领取到店好礼</div>
+    <section class="wheel-area" aria-label="幸运大转盘">
+      <div class="pointer" aria-hidden="true"></div>
+      <div class="wheel-frame"><canvas id="wheel" width="800" height="800" aria-label="奖品转盘"></canvas></div>
+      <button class="center" id="spin" type="button">开 始<small>点击抽奖</small></button>
+    </section>
+    <p class="hint">每人每天可抽 1 次 · 中奖后请及时领取</p>
+    <section class="prize-card">
+      <h2>活动奖品</h2>
+      <div class="prizes">
+        <div class="prize"><b>一等奖</b><span>¥29800 项目大礼包</span></div>
+        <div class="prize"><b>二等奖</b><span>轻奢护理项目大礼包</span></div>
+        <div class="prize"><b>三等奖</b><span>品牌香水 1 瓶</span></div>
+        <div class="prize"><b>四等奖</b><span>到店专享体验项目</span></div>
+      </div>
+    </section>
+    <div class="actions">
+      <button class="action" id="share" type="button">分享给好友</button>
+      <button class="action secondary" id="poster" type="button">保存活动海报</button>
+    </div>
+    <div class="rules"><strong>活动说明：</strong><br>1. 点击转盘即可参与；中奖结果以到店核销为准。<br>2. 本活动最终解释权归主办方所有。<br>3. 将本页面部署后，可把链接或二维码放进微信朋友圈传播。</div>
+  </main></div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="result-title">
+    <div class="dialog"><div class="spark">✦ ✦ ✦</div><h2 id="result-title">恭喜您中奖了！</h2><p id="result-copy"></p><button class="claim" id="claim" type="button">复制领奖信息</button><button class="close" id="close" type="button">稍后再说</button></div>
+  </div>
+  <script>
+    const prizes=[
+      {name:'一等奖',detail:'¥29800 项目大礼包',color:'#d93922'},
+      {name:'二等奖',detail:'轻奢护理大礼包',color:'#f06a26'},
+      {name:'三等奖',detail:'品牌香水 1 瓶',color:'#c91e18'},
+      {name:'四等奖',detail:'到店体验项目',color:'#ec7d28'},
+      {name:'谢谢参与',detail:'关注领取福利',color:'#b61412'},
+      {name:'到店礼',detail:'精美礼品一份',color:'#e85623'},
+      {name:'好运加倍',detail:'下次再来试试',color:'#b81412'},
+      {name:'专属优惠',detail:'护理代金券',color:'#ed7626'}
+    ];
+    const canvas=document.getElementById('wheel'),ctx=canvas.getContext('2d'),n=prizes.length,arc=Math.PI*2/n;
+    function draw(){const c=400,r=394;ctx.clearRect(0,0,800,800);ctx.save();ctx.translate(c,c);for(let i=0;i<n;i++){const a=i*arc-Math.PI/2-arc/2;ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,r,a,a+arc);ctx.closePath();ctx.fillStyle=prizes[i].color;ctx.fill();ctx.strokeStyle='#ffd878';ctx.lineWidth=3;ctx.stroke();ctx.save();ctx.rotate(a+arc/2);ctx.translate(220,0);ctx.rotate(Math.PI/2);ctx.fillStyle='#fff4d1';ctx.textAlign='center';ctx.font='bold 28px Microsoft YaHei';ctx.fillText(prizes[i].name,0,-8);ctx.fillStyle='#ffe2a1';ctx.font='20px Microsoft YaHei';ctx.fillText(prizes[i].detail,0,24);ctx.restore();}ctx.beginPath();ctx.arc(0,0,108,0,Math.PI*2);ctx.fillStyle='#c92316';ctx.fill();ctx.strokeStyle='#ffe4a2';ctx.lineWidth=8;ctx.stroke();ctx.restore();}
+    draw();
+    const params=new URLSearchParams(location.search),forcedAward=params.get('award');
+    const awardIndex={first:0,fourth:3}[forcedAward];
+    const onceKey='goddess-lucky-wheel-2026';
+    let spinning=false,angle=0,lastPrize=null;
+    const spin=document.getElementById('spin'),modal=document.getElementById('modal'),copy=document.getElementById('result-copy');
+    spin.addEventListener('click',()=>{if(spinning)return;const claimed=localStorage.getItem(onceKey);if(claimed){lastPrize=JSON.parse(claimed);document.getElementById('result-title').textContent='您已经参与过啦';copy.textContent=`您本次已领取「${lastPrize.name}」—— ${lastPrize.detail}。请到店向工作人员出示领奖信息。`;modal.classList.add('show');return;}spinning=true;const target=Number.isInteger(awardIndex)?awardIndex:Math.floor(Math.random()*n);lastPrize=prizes[target];const targetDeg=360-target*360/n;angle+=1440+targetDeg-(angle%360);canvas.style.transform=`rotate(${angle}deg)`;setTimeout(()=>{spinning=false;localStorage.setItem(onceKey,JSON.stringify(lastPrize));document.getElementById('result-title').textContent='恭喜您中奖了！';copy.textContent=`您抽中了「${lastPrize.name}」—— ${lastPrize.detail}。截图此页面，到店向工作人员出示即可领取。`;modal.classList.add('show');},5200);});
+    document.getElementById('close').addEventListener('click',()=>modal.classList.remove('show'));
+    document.getElementById('claim').addEventListener('click',async()=>{const text=`女神归来活动：我抽中了${lastPrize.name}（${lastPrize.detail}），请凭此信息到店领取。`;try{await navigator.clipboard.writeText(text);document.getElementById('claim').textContent='已复制，去微信粘贴发送';}catch(e){prompt('请复制以下领奖信息：',text);}});
+    document.getElementById('share').addEventListener('click',async()=>{const data={title:'女神归来｜幸运大转盘',text:'快来参加女神归来幸运大转盘，抽取到店好礼！',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);alert('活动链接已复制，打开微信即可发送给好友。');}}catch(e){}});
+    document.getElementById('poster').addEventListener('click',()=>{alert('建议将此页面完整截图后发朋友圈；部署到线上后，还可以制作带活动链接的二维码海报。');});
+  </script>
+</body>
+</html>
